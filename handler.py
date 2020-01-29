@@ -1,6 +1,6 @@
 from pytradfri import Gateway
 from pytradfri.api.libcoap_api import APIFactory
-from pytradfri.error import PytradfriError
+from pytradfri.error import PytradfriError, RequestTimeout
 from pytradfri.util import load_json, save_json
 from pytradfri.device import LightControl, Device, Light
 from pytradfri.command import Command
@@ -32,7 +32,16 @@ class Handler:
             devices: [Device] = api(dev_commands)
             self.lights: [Light] = [
                 dev for dev in devices if dev.has_light_control]
-            light: Light = self.lights[0]
-            print(light.name)
         except TypeError:
             print("re")
+        except RequestTimeout:
+            self.lights = ["lol"]
+
+    def get_lights(self):
+        return self.lights
+
+    def dim_light(self, index: int, dim: int):
+        light: Light = self.lights[index]
+        light_control: LightControl = light.light_control
+        light_control.set_dimmer(dim)
+        return
