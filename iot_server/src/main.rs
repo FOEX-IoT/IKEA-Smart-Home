@@ -29,13 +29,13 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(middleware::Logger::default())
-            .service(web::resource("/").route(web::get().to(index)))
+            .route("/", web::get().to(index))
+            .route("/test", web::post().to(test_handler))
             .service(
                 web::scope("/api")
                     .configure(tf_urls_config)
             )
             .service(Files::new("/", "./static"))
-            .service(web::resource("/test").route(web::post().to(test_handler)))
     })
         .bind("0.0.0.0".to_owned() + HTTP_PORT)?
         .run()
