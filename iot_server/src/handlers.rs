@@ -21,3 +21,8 @@ pub async fn setb(info: web::Path<u8>) -> Result<HttpResponse, ServiceError> {
 pub async fn index() -> Result<NamedFile, ServiceError> {
     Ok(NamedFile::open("./static/index.html")?)
 }
+
+pub async fn test_handler() -> HttpResponse {
+    HttpResponse::Ok()
+        .body("Hello world!")
+}

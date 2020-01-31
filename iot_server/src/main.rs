@@ -11,7 +11,7 @@ extern crate serde_json;
 extern crate lazy_static;
 
 use actix_files::Files;
-use crate::handlers::index;
+use crate::handlers::{index, test_handler};
 
 mod urls;
 mod handlers;
@@ -35,6 +35,7 @@ async fn main() -> std::io::Result<()> {
                     .configure(tf_urls_config)
             )
             .service(Files::new("/", "./static"))
+            .service(web::resource("/test").route(web::post().to(test_handler)))
     })
         .bind("0.0.0.0".to_owned() + HTTP_PORT)?
         .run()
