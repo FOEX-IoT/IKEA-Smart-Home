@@ -11,7 +11,7 @@ extern crate serde_json;
 extern crate lazy_static;
 
 use actix_files::Files;
-use crate::handlers::{index, test_handler};
+use crate::handlers::index;
 
 mod urls;
 mod handlers;
@@ -30,7 +30,6 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(middleware::Logger::default())
             .route("/", web::get().to(index))
-            .route("/test", web::post().to(test_handler))
             .service(
                 web::scope("/api")
                     .configure(tf_urls_config)

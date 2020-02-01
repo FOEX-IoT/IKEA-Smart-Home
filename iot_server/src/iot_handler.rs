@@ -6,7 +6,7 @@ pub struct IOTHandler;
 lazy_static! {
     pub static ref USER: String = {
 
-        std::env::var("USER").expect("USER must be set")
+        std::env::var("OURUSER").expect("USER must be set")
     };
     pub static ref KEY: String = {
         std::env::var("KEY").expect("KEY must be set")
@@ -25,7 +25,7 @@ impl IOTHandler {
             "3311" :
                 [
                     {
-                        "5851": 1
+                        "5850": 1
                     }
                 ]
         });
@@ -50,7 +50,7 @@ impl IOTHandler {
             "3311" :
                 [
                     {
-                        "5851": 0
+                        "5850": 0
                     }
                 ]
         });
