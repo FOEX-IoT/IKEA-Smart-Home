@@ -5,6 +5,22 @@ import logger from 'morgan';
 import path from 'path';
 import Router from './routes';
 
+import redis from "redis";
+// import { promisifyAll } from "bluebird";
+
+// const asyncRedis: any = promisifyAll(redis);
+
+export const redisClient = redis.createClient();
+
+redisClient.on("error", err => {
+    console.error(err);
+});
+
+redisClient.get("lol", (err, replies) => {
+    if (err) console.error(err);
+    console.log(replies);
+});
+
 // Init express
 const app = express();
 

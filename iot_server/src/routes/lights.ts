@@ -1,3 +1,4 @@
+import { redisClient } from './../Server';
 import { Command } from './../entities/Command';
 import { Router, Request, Response } from "express";
 import { execSync, spawnSync, exec } from "child_process";
@@ -19,14 +20,19 @@ router.get("/on", (req, res) => {
   let data = {
     "3311": [{
       "5850": 1
-})
-
-export default router;
     }]
   }
   let command = new Command("put", ["15001", "65547"], data);
   spawnSync(command.url);
   res.sendStatus(200);
+})
+
+router.get("/test", (req, res) => {
+  redisClient.get("lol", (err, replies) => {
+    if (err) res.sendStatus(500);
+
+    res.send(replies);
+  });
 })
 
 export default router;
