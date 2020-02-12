@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 
 import express from 'express';
 import { Request, Response } from 'express';
@@ -6,6 +7,7 @@ import path from 'path';
 import Router from './routes';
 
 import redis from "redis";
+import { Command } from './entities/Command';
 // import { promisifyAll } from "bluebird";
 
 // const asyncRedis: any = promisifyAll(redis);
@@ -16,10 +18,14 @@ redisClient.on("error", err => {
     console.error(err);
 });
 
-redisClient.get("lol", (err, replies) => {
-    if (err) console.error(err);
-    console.log(replies);
-});
+const get_devices = new Command("get", ["15001"]);
+let result = execSync(get_devices.url);
+// TODO parse
+console.log(result);
+
+let ids: string[] = [];
+redisClient.DEL("devIDs");
+redisClient.SADD("devIDs", ids);
 
 // Init express
 const app = express();
