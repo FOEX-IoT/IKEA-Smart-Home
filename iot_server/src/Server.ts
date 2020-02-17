@@ -6,26 +6,35 @@ import logger from 'morgan';
 import path from 'path';
 import Router from './routes';
 
-import redis from "redis";
+// import redis from "redis";
+import Redis from "ioredis";
 import { Command } from './entities/Command';
-// import { promisifyAll } from "bluebird";
 
-// const asyncRedis: any = promisifyAll(redis);
+export const redis = new Redis();
 
-export const redisClient = redis.createClient();
-
-redisClient.on("error", err => {
+redis.on("error", err => {
     console.error(err);
 });
 
 const get_devices = new Command("get", ["15001"]);
-let result = execSync(get_devices.url);
-// TODO parse
-console.log(result);
+let result = execSync(get_devices.url).toString();
+let resJSON = JSON.parse(result);
+redis.del("devIDs");
+redis.sadd("devIDs", resJSON);
 
-let ids: string[] = [];
-redisClient.DEL("devIDs");
-redisClient.SADD("devIDs", ids);
+
+redis.del("lights");
+resJSON.forEach((id: number) => {
+    const get_device = new Command("get", ["15001", id + ""]);
+    let result = execSync(get_device.url).toString();
+    let json = JSON.parse(result)
+    if (json["3"]["1"].includes("bulb")) {
+        redis.hmset(`light:${id}`, {
+            name: json["9001"]
+        });
+        redis.sadd("lights", id + "");
+    }
+});
 
 // Init express
 const app = express();
@@ -37,13 +46,6 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 app.use('/api', Router);
 
-/**
- * Point express to the 'views' directory. If you're using a
- * single-page-application framework like react or angular
- * which has its own development server, you might want to
- * configure this to only serve the index file while in
- * production mode.
- */
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 app.get('*', (req: Request, res: Response) => {
