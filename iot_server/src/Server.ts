@@ -13,27 +13,8 @@ import { Command } from './entities/Command';
 export const redis = new Redis();
 
 redis.on("error", err => {
+    console.log("hmmm")
     console.error(err);
-});
-
-const get_devices = new Command("get", ["15001"]);
-let result = execSync(get_devices.url).toString();
-let resJSON = JSON.parse(result);
-redis.del("devIDs");
-redis.sadd("devIDs", resJSON);
-
-
-redis.del("lights");
-resJSON.forEach((id: number) => {
-    const get_device = new Command("get", ["15001", id + ""]);
-    let result = execSync(get_device.url).toString();
-    let json = JSON.parse(result)
-    if (json["3"]["1"].includes("bulb")) {
-        redis.hmset(`light:${id}`, {
-            name: json["9001"]
-        });
-        redis.sadd("lights", id + "");
-    }
 });
 
 // Init express
@@ -46,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 app.use('/api', Router);
 
-const staticDir = path.join(__dirname, 'public');
+const staticDir = path.join(process.cwd(), 'public');
 app.use(express.static(staticDir));
 app.get('*', (req: Request, res: Response) => {
     res.sendFile('index.html', { root: staticDir });

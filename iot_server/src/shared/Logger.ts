@@ -33,6 +33,7 @@ if (process.env.NODE_ENV === 'production') {
     const infoTransport = new File({
         filename: './logs/combined.log',
         format: fileFormat,
+        level: "al"
     });
     winstonLogger.add(errTransport);
     winstonLogger.add(infoTransport);
