@@ -1,10 +1,12 @@
-import { Command } from './entities/Command';
+import { Command } from '@entities';
 import { execSync } from 'child_process';
 import { redis } from '@server';
 export default () => {
   setTimeout(() => {
+    console.log("starting init");
     try {
       const get_devices = new Command("get", ["15001"]);
+      console.log(get_devices.url);
       let result = execSync(get_devices.url).toString();
       let resJSON = JSON.parse(result);
       redis.del("devIDs");
@@ -26,5 +28,6 @@ export default () => {
     } catch (e) {
       console.error("error in get_devices");
     }
+    console.log("finished init");
   });
 }

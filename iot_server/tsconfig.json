@@ -12,7 +12,6 @@
     "strict": true,
     "target": "es6",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "paths": {
       "@entities": ["src/entities"],
       "@shared": ["src/shared"],

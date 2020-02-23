@@ -1,5 +1,5 @@
-import { redis } from './../Server';
-import { Command } from './../entities/Command';
+import { redis } from '@server';
+import { Command } from '@entities';
 import { Router } from "express";
 import { execSync } from "child_process";
 import { isNumber } from 'util';
@@ -8,6 +8,7 @@ const router = Router();
 
 router.get("/get_lights", (req, res) => {
   redis.smembers("lights", (err, result) => {
+    console.log(result);
     if (err) {
       res.sendStatus(500);
       return;

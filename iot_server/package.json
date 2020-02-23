@@ -8,11 +8,6 @@
     "start:dev": "nodemon --config nodemon.json",
     "test": "nodemon --config nodemon.test.json"
   },
-  "_moduleAliases": {
-    "@entities": "dist/entities",
-    "@shared": "dist/shared",
-    "@server": "dist/Server"
-  },
   "dependencies": {
     "@types/bluebird": "^3.5.29",
     "@types/ioredis": "^4.14.7",
