@@ -8,12 +8,10 @@ import Router from './routes';
 
 // import redis from "redis";
 import Redis from "ioredis";
-import { Command } from './entities/Command';
 
 export const redis = new Redis();
 
 redis.on("error", err => {
-    console.log("hmmm")
     console.error(err);
 });
 
