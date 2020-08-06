@@ -1,19 +1,5 @@
-[package]
-name = "iot_server"
-version = "0.1.0"
-authors = ["realSuffix <linmad17@htl-kaindorf.at>"]
-edition = "2018"
+[workspace]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-actix-web = "2.0"
-actix-rt = "1.0"
-serde = {version = "1.0", features = ["derive"] }
-serde_derive = "1.0.104"
-serde_json = "1.0.44"
-lazy_static = "1.4.0"
-dotenv = "0.15.0"
-env_logger = "0.7.1"
-actix-files = "0.2"
-derive_more = "0.99.2"
+members = [
+  "iot_server"
+]

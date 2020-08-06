@@ -1,7 +1,7 @@
 use actix_web::web;
 use crate::handlers::{on, off, setb};
 
-pub fn tf_urls_config(cfg: &mut web::ServiceConfig) {
+pub fn url_config(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::resource("/setb/{val}").route(web::post().to(setb))
     );
