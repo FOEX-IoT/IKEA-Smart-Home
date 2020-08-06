@@ -1,4 +1,4 @@
-# IoT-Test
+# IoT-Server
 
 A repository for the IKEA Smart Home stuff we do in FOEX class (HTBLA Kaindorf)
 
